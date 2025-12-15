@@ -1,7 +1,7 @@
-package net.dusty_dusty.bnb_core.network;
+package net.dusty_dusty.bnb_core.cold_crops.network;
 
-import net.dusty_dusty.bnb_core.data.CropData;
-import net.dusty_dusty.bnb_core.data.CropsNSeedsData;
+import net.dusty_dusty.bnb_core.cold_crops.data.CropData;
+import net.dusty_dusty.bnb_core.cold_crops.data.CropsNSeedsData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;

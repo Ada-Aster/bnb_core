@@ -1,11 +1,11 @@
-package net.dusty_dusty.bnb_core.data;
+package net.dusty_dusty.bnb_core.cold_crops.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import net.dusty_dusty.bnb_core.BnbCore;
-import net.dusty_dusty.bnb_core.network.PacketChannel;
-import net.dusty_dusty.bnb_core.network.SyncDataPacket;
+import net.dusty_dusty.bnb_core.cold_crops.network.PacketChannel;
+import net.dusty_dusty.bnb_core.cold_crops.network.SyncDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;

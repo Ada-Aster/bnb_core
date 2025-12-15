@@ -4,12 +4,13 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 import com.momosoftworks.coldsweat.api.util.Temperature;
 import com.momosoftworks.coldsweat.util.world.WorldHelper;
-import net.dusty_dusty.bnb_core.data.CropData;
-import net.dusty_dusty.bnb_core.data.CropsNSeedsData;
-import net.dusty_dusty.bnb_core.network.PacketChannel;
-import net.dusty_dusty.bnb_core.network.SyncDataPacket;
-import net.dusty_dusty.bnb_core.tooltip.ClientTempTooltipComponent;
-import net.dusty_dusty.bnb_core.tooltip.TempTooltipComponent;
+import net.dusty_dusty.bnb_core.cold_crops.ColdCrops;
+import net.dusty_dusty.bnb_core.cold_crops.data.CropData;
+import net.dusty_dusty.bnb_core.cold_crops.data.CropsNSeedsData;
+import net.dusty_dusty.bnb_core.cold_crops.network.PacketChannel;
+import net.dusty_dusty.bnb_core.cold_crops.network.SyncDataPacket;
+import net.dusty_dusty.bnb_core.cold_crops.tooltip.ClientTempTooltipComponent;
+import net.dusty_dusty.bnb_core.cold_crops.tooltip.TempTooltipComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,17 +49,12 @@ public class BnbCore
     {
 
         IEventBus modEventBus = context.getModEventBus();
-
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::registerTooltip);
 
         IEventBus ForgeEventBus = MinecraftForge.EVENT_BUS;
         ForgeEventBus.register(this);
-        ForgeEventBus.addListener(this::onCropGrowth);
-        ForgeEventBus.addListener(this::onTreeGrowth);
-        ForgeEventBus.addListener(this::onTooltip);
-        ForgeEventBus.addListener(this::onPlayerJoin);
-        ForgeEventBus.addListener(this::onPlayerLeave);
+
+        new ColdCrops().initialize( context );
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -66,134 +62,19 @@ public class BnbCore
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
+//    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+//    public static class ClientModEvents {
+//
+//        @SubscribeEvent
+//        public static void onClientSetup(FMLClientSetupEvent event) {
+//            // Some client setup code
+//            LOGGER.info("HELLO FROM CLIENT SETUP");
+//            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+//        }
+//
+//    }
 
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
 
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    public void onTooltip(RenderTooltipEvent.GatherComponents event) {
-
-        String resLoc = ForgeRegistries.ITEMS.getKey(event.getItemStack().getItem()).toString();
-        if (CropsNSeedsData.SEEDS_LIST.containsKey(resLoc)) {
-            CropData data = CropsNSeedsData.CROPS_MAP.get(CropsNSeedsData.SEEDS_LIST.get(resLoc));
-            event.getTooltipElements().add(1, Either.right(new TempTooltipComponent(data)));
-        }
-    }
-
-    public void registerTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
-
-        //Factory Design sucks ass
-        event.register(TempTooltipComponent.class, ClientTempTooltipComponent::new);
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    public void onCropGrowth(BlockEvent.CropGrowEvent.Pre event) {
-        if (event.getLevel() != null) {
-            String blockResLoc = ForgeRegistries.BLOCKS.getKey(event.getState().getBlock()).toString();
-
-            onTreeAndPlant((Level) event.getLevel(), blockResLoc ,event.getPos(), event);
-        }
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    public void onTreeGrowth(SaplingGrowTreeEvent event) {
-        if (event.getLevel() != null) {
-            String blockResLoc = ForgeRegistries.BLOCKS.getKey(event.getLevel().getBlockState(event.getPos()).getBlock()).toString();
-
-            Level level = (Level) event.getLevel();
-            BlockPos blockPos = event.getPos();
-
-            if (CropsNSeedsData.CROPS_MAP.containsKey(blockResLoc)) {
-                double temp = WorldHelper.getTemperatureAt(level, blockPos);
-                CropData data = CropsNSeedsData.CROPS_MAP.get(blockResLoc);
-
-                if (data.isColder(temp, Temperature.Units.MC)) {
-                    event.setResult(Event.Result.DENY);
-                }
-                data.onCold(temp, Temperature.Units.MC, (resourceLocation ->
-                        level.setBlock(blockPos, ForgeRegistries.BLOCKS.getValue(resourceLocation).defaultBlockState(), 2)
-                ));
-
-                if (data.isWarmer(temp, Temperature.Units.MC)) {
-                    event.setResult(Event.Result.DENY);
-                }
-                data.onHot(temp, Temperature.Units.MC, (resourceLocation ->
-                        level.setBlock(blockPos, ForgeRegistries.BLOCKS.getValue(resourceLocation).defaultBlockState(), 2)
-                ));
-            }
-        }
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    private void onTreeAndPlant(Level level, String blockResLoc, BlockPos blockPos, Event event) {
-        if (CropsNSeedsData.CROPS_MAP.containsKey(blockResLoc)) {
-            double temp = WorldHelper.getTemperatureAt(level, blockPos);
-            CropData data = CropsNSeedsData.CROPS_MAP.get(blockResLoc);
-
-            double growOdds = data.getGrowOdds(temp, Temperature.Units.MC);
-            double randomVal = level.random.nextDouble();
-            if (data.isColder(temp, Temperature.Units.MC) || data.isWarmer(temp, Temperature.Units.MC)) {
-                growOdds = Math.abs(growOdds)/1.5;
-                randomVal *= growOdds + (level.isNight() ? 0.25 : 1); // More leeway for nighttime
-
-                event.setResult(Event.Result.DENY);
-                if (!witherPlant(randomVal, level, blockPos)) {
-                    data.onHot(temp, Temperature.Units.MC, (resourceLocation ->
-                            level.setBlock(blockPos, ForgeRegistries.BLOCKS.getValue(resourceLocation).defaultBlockState(), 2)
-                    ));
-                    data.onCold(temp, Temperature.Units.MC, (resourceLocation ->
-                            level.setBlock(blockPos, ForgeRegistries.BLOCKS.getValue(resourceLocation).defaultBlockState(), 2)
-                    ));
-                }
-            } else if (randomVal > growOdds) {
-                event.setResult(Event.Result.DENY);
-            }
-        }
-    }
-
-    private boolean witherPlant(double amount, Level level, BlockPos blockPos) {
-        if ( level.random.nextDouble()*10 > amount ) {
-            return true;
-        }
-
-        BlockState pState = level.getBlockState(blockPos);
-        CropBlock block;
-        try {
-            block = (CropBlock) pState.getBlock();
-        } catch (Exception notACrop) {
-            return false;
-        }
-
-        int age = block.getAge(pState);
-        if (age == 0) {
-            return false;
-        }
-
-        level.setBlock(blockPos, block.getStateForAge(age - 1), 2);
-        return true;
-    }
-
-    private void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER)
-            PacketChannel.sendToClient(new SyncDataPacket(CropsNSeedsData.CROPS_MAP, CropsNSeedsData.SEEDS_LIST), (ServerPlayer) event.getEntity());
-    }
-
-    private void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            //It's to save memory but is it really necessary
-            BnbCore.LOGGER.info("Clearing unneeded data");
-            CropsNSeedsData.CROPS_MAP.clear();
-            CropsNSeedsData.SEEDS_LIST.clear();
-        }
-    }
 
     @SubscribeEvent
     public void jsonReading(AddReloadListenerEvent event) {

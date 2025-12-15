@@ -1,8 +1,8 @@
-package net.dusty_dusty.bnb_core.network;
+package net.dusty_dusty.bnb_core.cold_crops.network;
 
 import com.momosoftworks.coldsweat.api.util.Temperature;
 import com.momosoftworks.coldsweat.config.spec.ClientSettingsConfig;
-import net.dusty_dusty.bnb_core.compat.jade.CropComponentProvider;
+import net.dusty_dusty.bnb_core.cold_crops.compat.jade.CropComponentProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.loading.FMLEnvironment;

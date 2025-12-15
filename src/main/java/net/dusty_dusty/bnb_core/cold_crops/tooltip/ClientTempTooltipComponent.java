@@ -1,4 +1,4 @@
-package net.dusty_dusty.bnb_core.tooltip;
+package net.dusty_dusty.bnb_core.cold_crops.tooltip;
 
 import com.momosoftworks.coldsweat.api.util.Temperature;
 import com.momosoftworks.coldsweat.config.spec.ClientSettingsConfig;

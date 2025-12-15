@@ -1,4 +1,4 @@
-package net.dusty_dusty.bnb_core.data;
+package net.dusty_dusty.bnb_core.cold_crops.data;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

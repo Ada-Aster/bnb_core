@@ -1,4 +1,4 @@
-package net.dusty_dusty.bnb_core.network;
+package net.dusty_dusty.bnb_core.cold_crops.network;
 
 import com.momosoftworks.coldsweat.util.world.WorldHelper;
 import net.minecraft.core.BlockPos;

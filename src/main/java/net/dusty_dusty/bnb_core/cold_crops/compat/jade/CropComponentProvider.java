@@ -1,16 +1,13 @@
-package net.dusty_dusty.bnb_core.compat.jade;
+package net.dusty_dusty.bnb_core.cold_crops.compat.jade;
 
 import com.momosoftworks.coldsweat.api.util.Temperature;
 import com.momosoftworks.coldsweat.config.spec.ClientSettingsConfig;
 import net.dusty_dusty.bnb_core.BnbCore;
-import net.dusty_dusty.bnb_core.data.CropData;
-import net.dusty_dusty.bnb_core.data.CropsNSeedsData;
-import net.dusty_dusty.bnb_core.network.PacketChannel;
-import net.dusty_dusty.bnb_core.network.ReqBlockTempData;
+import net.dusty_dusty.bnb_core.cold_crops.data.CropData;
+import net.dusty_dusty.bnb_core.cold_crops.data.CropsNSeedsData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +16,6 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.registries.ForgeRegistries;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
-import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.Element;
