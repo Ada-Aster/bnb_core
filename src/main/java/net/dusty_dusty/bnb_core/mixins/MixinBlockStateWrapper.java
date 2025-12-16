@@ -18,7 +18,7 @@ public abstract class MixinBlockStateWrapper {
     @Shadow
     private String serialString;
 
-    // Is an overwrite
+    // Is an overwrite, hopefully for testing but... idk...
     private EDhApiBlockMaterial calculateEDhApiBlockMaterialId()
 	{
 		if (this.blockState == null)
@@ -63,7 +63,10 @@ public abstract class MixinBlockStateWrapper {
 		{
 			return EDhApiBlockMaterial.METAL;
 		}
-		else if (serialString.contains("grass_block"))
+		else if (
+                serialString.contains("grass_block")
+                || serialString.contains("grass_slab")
+                )
 		{
 			return EDhApiBlockMaterial.GRASS;
 		}
@@ -121,6 +124,5 @@ public abstract class MixinBlockStateWrapper {
 
     @Shadow
     abstract String getSerialString();
-
 
 }
