@@ -146,6 +146,8 @@ repositories {
         url "https://cursemaven.com"
     }
 
+    maven { url = "https://api.modrinth.com/maven" }
+
 //    maven {
 //        url = "https://api.modrinth.com/maven"
 //    }
@@ -182,6 +184,9 @@ dependencies {
     // this is necessary since DH uses mixins, for more information please visit:
     // https://github.com/SpongePowered/Mixin/wiki/Mixins-on-Minecraft-Forge
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    //compileOnly fg.deobf("maven.modrinth:DistantHorizonsApi:5.0.0")
+    implementation fg.deobf("curse.maven:distant-horizons-508933:7336774")
 
 }
 
