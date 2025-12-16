@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin( BlockStateWrapper.class )
@@ -18,7 +19,11 @@ public abstract class MixinBlockStateWrapper {
     @Shadow
     private String serialString;
 
-    // Is an overwrite, hopefully for testing but... idk...
+    /**
+     * @author Ada Aster
+     * @reason Testing
+     */
+    @Overwrite( remap = false )
     private EDhApiBlockMaterial calculateEDhApiBlockMaterialId()
 	{
 		if (this.blockState == null)
@@ -63,6 +68,11 @@ public abstract class MixinBlockStateWrapper {
 		{
 			return EDhApiBlockMaterial.METAL;
 		}
+
+        ///================///
+        /// Edited Portion ///
+        ///================///
+
 		else if (
                 serialString.contains("grass_block")
                 || serialString.contains("grass_slab")
@@ -70,6 +80,11 @@ public abstract class MixinBlockStateWrapper {
 		{
 			return EDhApiBlockMaterial.GRASS;
 		}
+
+        ///====================///
+        /// End Edited Portion ///
+        ///====================///
+
 		else if (
 			serialString.contains("dirt")
 			|| serialString.contains("gravel")
