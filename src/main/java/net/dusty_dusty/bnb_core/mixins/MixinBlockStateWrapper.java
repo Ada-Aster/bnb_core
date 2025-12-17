@@ -10,6 +10,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin( BlockStateWrapper.class )
 public abstract class MixinBlockStateWrapper {
@@ -19,9 +22,21 @@ public abstract class MixinBlockStateWrapper {
     @Shadow
     private String serialString;
 
+//    @Inject( method = "calculateEDhApiBlockMaterialId", at = @At( "RETURN" ), cancellable = true, remap = false )
+//    private void oncalculateEDhApiBlockMaterialId( CallbackInfoReturnable<EDhApiBlockMaterial> cir ){
+//        if (this.blockState == null)
+//        {
+//            return;
+//        }
+//
+//        if ( serialString.contains("grass_slab") ) {
+//            cir.setReturnValue( EDhApiBlockMaterial.GRASS );
+//        }
+//    }
+
     /**
      * @author Ada Aster
-     * @reason Testing
+     * @reason Injector not working ;-;
      */
     @Overwrite( remap = false )
     private EDhApiBlockMaterial calculateEDhApiBlockMaterialId()

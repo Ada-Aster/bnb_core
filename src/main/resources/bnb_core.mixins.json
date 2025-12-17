@@ -5,6 +5,7 @@
   "refmap": "bnb_core.refmap.json",
   "mixins": [
     "MixinBlockStateWrapper",
+    "MixinClientBlockStateColorCache",
     "MixinCropBlock",
     "MixinLodRenderer",
     "MixinVanillaFadeRenderer"
