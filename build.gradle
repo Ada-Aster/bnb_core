@@ -165,6 +165,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:cold-sweat-506194:7193948")
     implementation fg.deobf("curse.maven:jade-324717:5672013")
+    implementation fg.deobf("curse.maven:jei-238222:6600311")
+    implementation fg.deobf("curse.maven:meds-and-herbs-418682:4840824")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
@@ -174,8 +176,9 @@ dependencies {
     // https://github.com/SpongePowered/Mixin/wiki/Mixins-on-Minecraft-Forge
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    //compileOnly fg.deobf("maven.modrinth:DistantHorizonsApi:5.0.0")
-    implementation fg.deobf("curse.maven:distant-horizons-508933:7336774")
+    //compileOnly fg.deobf("maven.modrinth:DistantHorizonsApi:5.1.0")
+    //implementation fg.deobf("curse.maven:distant-horizons-508933:7336774")
+    implementation fg.deobf("curse.maven:distant-horizons-508933:7375280")
 
 }
 
