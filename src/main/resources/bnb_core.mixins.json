@@ -6,9 +6,7 @@
   "mixins": [
     "MixinBlockStateWrapper",
     "MixinClientBlockStateColorCache",
-    "MixinCropBlock",
-    "MixinLodRenderer",
-    "MixinVanillaFadeRenderer"
+    "MixinCropBlock"
   ],
   "client": [
   ],

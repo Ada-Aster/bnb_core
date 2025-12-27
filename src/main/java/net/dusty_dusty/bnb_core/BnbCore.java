@@ -23,7 +23,6 @@ public class BnbCore
 
     public BnbCore(FMLJavaModLoadingContext context )
     {
-
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::commonSetup);
 
