@@ -1,0 +1,7 @@
+{
+	"seed": "minecraft:wheat_seeds",
+	"min": 0,
+	"max": 37.77777777777778,
+	"transforms_cold": "biomesoplenty:dead_grass",
+	"transforms_hot": "biomesoplenty:desert_grass"
+}

@@ -1,0 +1,7 @@
+{
+	"seed": "minecraft:cocoa_beans",
+	"min": 18.333333333333336,
+	"max": 43.333333333333336,
+	"transforms_cold": "biomesoplenty:dead_grass",
+	"transforms_hot": "biomesoplenty:desert_grass"
+}

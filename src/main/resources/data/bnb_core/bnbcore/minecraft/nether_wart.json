@@ -1,0 +1,7 @@
+{
+	"seed": "minecraft:nether_wart",
+	"min": 37.77777777777778,
+	"max": 65.55555555555556,
+	"transforms_cold": "biomesoplenty:dead_grass",
+	"transforms_hot": "biomesoplenty:desert_grass"
+}

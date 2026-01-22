@@ -1,0 +1,7 @@
+{
+	"seed": "minecraft:pumpkin_seeds",
+	"min": 0,
+	"max": 32.22222222222222,
+	"transforms_cold": "biomesoplenty:dead_grass",
+	"transforms_hot": "biomesoplenty:desert_grass"
+}
