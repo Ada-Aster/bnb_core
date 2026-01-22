@@ -5,6 +5,8 @@ import com.momosoftworks.coldsweat.config.spec.ClientSettingsConfig;
 import net.dusty_dusty.bnb_core.BnbCore;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropData;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropsNSeedsData;
+import net.dusty_dusty.bnb_core.cold_crops.network.PacketChannel;
+import net.dusty_dusty.bnb_core.cold_crops.network.ReqBlockTempData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
@@ -70,34 +72,34 @@ public class CropComponentProvider implements IBlockComponentProvider {
         if (CropsNSeedsData.CROPS_MAP.containsKey(blockResLoc) && blockAccessor.getLevel() != null) {
             clientBlockPos = blockAccessor.getPosition();
 
-//            if (!clientBlockPos.equals(curBlockPos)) {
-//                PacketChannel.sendToServer(new ReqBlockTempData(blockAccessor.getPosition()));
-//                return;
-//            } else {
-//                if (tickCounter >= 40) {
-//                    PacketChannel.sendToServer(new ReqBlockTempData(blockAccessor.getPosition()));
-//                    tickCounter = 0;
-//                } else tickCounter++;
-//            }
-//
-//            int temperature = curTemperature;
-//
+            if (!clientBlockPos.equals(curBlockPos)) {
+                PacketChannel.sendToServer(new ReqBlockTempData(blockAccessor.getPosition()));
+                return;
+            } else {
+                if (tickCounter >= 40) {
+                    PacketChannel.sendToServer(new ReqBlockTempData(blockAccessor.getPosition()));
+                    tickCounter = 0;
+                } else tickCounter++;
+            }
+
+            int temperature = curTemperature;
+
             String tempType = ClientSettingsConfig.USE_CELSIUS.get() ? "°C" : "°F";
             CropData data = CropsNSeedsData.CROPS_MAP.get(blockResLoc);
-//
-//            ChatFormatting formatting = ChatFormatting.GREEN;
-//
-//            if (data.getMinTemp() != null && quickConvert(data.getMinTemp(), data.getType()) > temperature) formatting = ChatFormatting.AQUA;
-//            if (data.getMaxTemp() != null && quickConvert(data.getMaxTemp(), data.getType()) < temperature) formatting = ChatFormatting.RED;
-//
-//
-//            iTooltip.add(Component.literal(String.format("%s", temperature)).withStyle(formatting));
-//            iTooltip.append(gauge);
+
+            ChatFormatting formatting = ChatFormatting.GREEN;
+
+            if (data.getMinTemp() != null && quickConvert(data.getMinTemp(), data.getType()) > temperature) formatting = ChatFormatting.AQUA;
+            if (data.getMaxTemp() != null && quickConvert(data.getMaxTemp(), data.getType()) < temperature) formatting = ChatFormatting.RED;
+
+
+            iTooltip.add(Component.literal(String.format("%s", temperature)).withStyle(formatting));
+            iTooltip.append(gauge);
 
             if (data.getMinTemp() != null) {
                 int minTemp = Mth.floor(quickConvert(data.getMinTemp(), data.getType()));
                 String textCold = String.format("%s", minTemp);
-                iTooltip.add(Component.literal(textCold).withStyle(Style.EMPTY.withColor(0x3B81CC)));
+                iTooltip.append(Component.literal(textCold).withStyle(Style.EMPTY.withColor(0x3B81CC)));
                 iTooltip.append(cold);
             }
 
