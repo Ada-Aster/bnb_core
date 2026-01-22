@@ -18,7 +18,7 @@ public class PacketChannel {
 
     public static void register() {
         SimpleChannel net = NetworkRegistry.ChannelBuilder
-                .named(ResourceLocation.fromNamespaceAndPath(BnbCore.MODID, "packetchannel"))
+                .named( ResourceLocation.fromNamespaceAndPath(BnbCore.MODID, "packetchannel") )
                 .networkProtocolVersion(() -> "1.0")
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)
@@ -41,7 +41,7 @@ public class PacketChannel {
         net.messageBuilder(RecBlockTempData.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .encoder(RecBlockTempData::encode)
                 .decoder(RecBlockTempData::new)
-                //.consumerMainThread(RecBlockTempData::handle)
+                .consumerMainThread(RecBlockTempData::handle)
                 .add();
     }
 
