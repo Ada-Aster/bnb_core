@@ -57,7 +57,6 @@ public class ColdCrops {
 
     public void registerTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
 
-        //Factory Design sucks ass
         event.register(TempTooltipComponent.class, ClientTempTooltipComponent::new);
     }
 
@@ -109,10 +108,12 @@ public class ColdCrops {
             double randomVal = level.random.nextDouble();
             if (data.isColder(temp, Temperature.Units.MC) || data.isWarmer(temp, Temperature.Units.MC)) {
                 growOdds = Math.abs(growOdds)/1.5;
-                randomVal *= growOdds + (level.isNight() ? 0.25 : 1); // More leeway for nighttime
+                randomVal *= growOdds + ((level.isNight() ? 0.25 : 1) * (level.isRaining() || level.isThundering() ? 0.25 : 1));
+                // More leeway for nighttime and rain
 
                 event.setResult(Event.Result.DENY);
                 if (!witherPlant(randomVal, level, blockPos)) {
+
                     data.onHot(temp, Temperature.Units.MC, (resourceLocation ->
                             level.setBlock(blockPos, ForgeRegistries.BLOCKS.getValue(resourceLocation).defaultBlockState(), 2)
                     ));
@@ -127,7 +128,7 @@ public class ColdCrops {
     }
 
     private boolean witherPlant(double amount, Level level, BlockPos blockPos) {
-        if ( level.random.nextDouble()*10 > amount ) {
+        if ( level.random.nextDouble()*15 > amount ) {
             return true;
         }
 
@@ -141,7 +142,8 @@ public class ColdCrops {
 
         int age = block.getAge(pState);
         if (age == 0) {
-            return false;
+            // age 0 crops are less likely to wither.
+            return level.random.nextDouble()*3 > 1;
         }
 
         level.setBlock(blockPos, block.getStateForAge(age - 1), 2);
