@@ -35,10 +35,10 @@ public class SyncDataPacket {
     @SuppressWarnings({"UnusedReturnValue", "unused"})
     public boolean handle(Supplier<NetworkEvent.Context> contextSupplier) {
 
-        if (Minecraft.getInstance().player != null) {
+        //if (Minecraft.getInstance().player != null) {
             CropsNSeedsData.CROPS_MAP = this.crop_map;
             CropsNSeedsData.SEEDS_LIST = this.seeds_list;
-        }
+        //}
 
         return true;
     }
