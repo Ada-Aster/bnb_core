@@ -1,9 +1,11 @@
 package net.dusty_dusty.bnb_core.cold_crops.network;
 
+import net.dusty_dusty.bnb_core.BnbCore;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropData;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropsNSeedsData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
@@ -30,15 +32,15 @@ public class SyncDataPacket {
         buf.writeMap(seeds_list, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
     }
 
-
     //TODO this packet
-    @SuppressWarnings({"UnusedReturnValue", "unused"})
-    public boolean handle(Supplier<NetworkEvent.Context> contextSupplier) {
-
-        //if (Minecraft.getInstance().player != null) {
-            CropsNSeedsData.CROPS_MAP = this.crop_map;
-            CropsNSeedsData.SEEDS_LIST = this.seeds_list;
-        //}
+    public static boolean handle( SyncDataPacket message, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context netCtx = contextSupplier.get();
+        //netCtx.enqueueWork( () -> {
+            if ( Minecraft.getInstance().player != null ) {
+                CropsNSeedsData.CROPS_MAP = message.crop_map;
+                CropsNSeedsData.SEEDS_LIST = message.seeds_list;
+            }
+        //});
 
         return true;
     }

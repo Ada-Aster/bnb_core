@@ -41,7 +41,7 @@ public class ColdCrops {
         ForgeEventBus.addListener(this::onCropGrowth);
         ForgeEventBus.addListener(this::onTreeGrowth);
         ForgeEventBus.addListener(this::onTooltip);
-        ForgeEventBus.addListener(this::onPlayerJoin);
+        // ForgeEventBus.addListener(this::onPlayerJoin);
         ForgeEventBus.addListener(this::onPlayerLeave);
     }
 
@@ -150,10 +150,10 @@ public class ColdCrops {
         return true;
     }
 
-    private void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER)
-            PacketChannel.sendToClient(new SyncDataPacket(CropsNSeedsData.CROPS_MAP, CropsNSeedsData.SEEDS_LIST), (ServerPlayer) event.getEntity());
-    }
+//    private void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+//        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER)
+//            PacketChannel.sendToClient(new SyncDataPacket(CropsNSeedsData.CROPS_MAP, CropsNSeedsData.SEEDS_LIST), (ServerPlayer) event.getEntity());
+//    }
 
     private void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
         if (FMLEnvironment.dist == Dist.CLIENT) {

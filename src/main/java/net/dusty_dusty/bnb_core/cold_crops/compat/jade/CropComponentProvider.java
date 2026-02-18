@@ -6,7 +6,7 @@ import net.dusty_dusty.bnb_core.BnbCore;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropData;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropsNSeedsData;
 import net.dusty_dusty.bnb_core.cold_crops.network.PacketChannel;
-import net.dusty_dusty.bnb_core.cold_crops.network.ReqBlockTempData;
+import net.dusty_dusty.bnb_core.cold_crops.network.RequestBlockTempData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
@@ -72,14 +72,16 @@ public class CropComponentProvider implements IBlockComponentProvider {
         if (CropsNSeedsData.CROPS_MAP.containsKey(blockResLoc) && blockAccessor.getLevel() != null) {
             clientBlockPos = blockAccessor.getPosition();
 
-            if (!clientBlockPos.equals(curBlockPos)) {
-                PacketChannel.sendToServer(new ReqBlockTempData(blockAccessor.getPosition()));
+            if ( clientBlockPos.distManhattan( curBlockPos ) > 0.1 ) {
+                PacketChannel.sendToServer(new RequestBlockTempData(blockAccessor.getPosition()));
                 return;
             } else {
                 if (tickCounter >= 40) {
-                    PacketChannel.sendToServer(new ReqBlockTempData(blockAccessor.getPosition()));
+                    PacketChannel.sendToServer(new RequestBlockTempData(blockAccessor.getPosition()));
                     tickCounter = 0;
-                } else tickCounter++;
+                } else {
+                    tickCounter++;
+                }
             }
 
             int temperature = curTemperature;

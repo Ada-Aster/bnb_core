@@ -33,7 +33,7 @@ public class BnbCore
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        PacketChannel.register();
+        event.enqueueWork(PacketChannel::register);
     }
 
     @SubscribeEvent
