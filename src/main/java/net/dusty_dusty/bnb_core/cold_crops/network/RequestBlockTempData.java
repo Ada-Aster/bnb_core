@@ -22,17 +22,13 @@ public class RequestBlockTempData {
         buf.writeBlockPos(this.cropPos);
     }
 
-
-    //TODO this packet
     @SuppressWarnings({"UnusedReturnValue", "unused"})
     static public boolean handle(RequestBlockTempData message, Supplier<NetworkEvent.Context> contextSupplier ) {
         NetworkEvent.Context netCtx = contextSupplier.get();
-        if ( netCtx.getSender() == null ) return false;
+        if ( netCtx.getSender() == null ) { return false; }
 
-        //netCtx.enqueueWork( () -> {
-            double temperature = WorldHelper.getTemperatureAt( netCtx.getSender().level(), message.cropPos );
-            PacketChannel.sendToClient( new RecordBlockTempData( message.cropPos, temperature), netCtx.getSender() );
-        //});
+        double temperature = WorldHelper.getTemperatureAt( netCtx.getSender().level(), message.cropPos );
+        PacketChannel.sendToClient( new RecordBlockTempData( message.cropPos, temperature), netCtx.getSender() );
 
         return true;
     }

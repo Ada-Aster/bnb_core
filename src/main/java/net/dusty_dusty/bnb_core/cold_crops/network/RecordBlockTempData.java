@@ -31,10 +31,9 @@ public class RecordBlockTempData {
     @SuppressWarnings({"UnusedReturnValue", "unused"})
     public static boolean handle(RecordBlockTempData message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context netCtx = contextSupplier.get();
-        //netCtx.enqueueWork( () -> {
-            CropComponentProvider.curTemperature = (int) Math.round(Temperature.convert( message.temperature, Temperature.Units.MC, ClientSettingsConfig.USE_CELSIUS.get() ? Temperature.Units.C : Temperature.Units.F, true));
-            CropComponentProvider.curBlockPos = message.cropPos;
-        //});
+
+        CropComponentProvider.curTemperature = (int) Math.round(Temperature.convert( message.temperature, Temperature.Units.MC, ClientSettingsConfig.USE_CELSIUS.get() ? Temperature.Units.C : Temperature.Units.F, true));
+        CropComponentProvider.curBlockPos = message.cropPos;
 
         return true;
     }

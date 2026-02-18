@@ -6,12 +6,9 @@ import com.momosoftworks.coldsweat.util.world.WorldHelper;
 import net.dusty_dusty.bnb_core.BnbCore;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropData;
 import net.dusty_dusty.bnb_core.cold_crops.data.CropsNSeedsData;
-import net.dusty_dusty.bnb_core.cold_crops.network.PacketChannel;
-import net.dusty_dusty.bnb_core.cold_crops.network.SyncDataPacket;
 import net.dusty_dusty.bnb_core.cold_crops.tooltip.ClientTempTooltipComponent;
 import net.dusty_dusty.bnb_core.cold_crops.tooltip.TempTooltipComponent;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,7 +38,6 @@ public class ColdCrops {
         ForgeEventBus.addListener(this::onCropGrowth);
         ForgeEventBus.addListener(this::onTreeGrowth);
         ForgeEventBus.addListener(this::onTooltip);
-        // ForgeEventBus.addListener(this::onPlayerJoin);
         ForgeEventBus.addListener(this::onPlayerLeave);
     }
 
@@ -149,11 +145,6 @@ public class ColdCrops {
         level.setBlock(blockPos, block.getStateForAge(age - 1), 2);
         return true;
     }
-
-//    private void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-//        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER)
-//            PacketChannel.sendToClient(new SyncDataPacket(CropsNSeedsData.CROPS_MAP, CropsNSeedsData.SEEDS_LIST), (ServerPlayer) event.getEntity());
-//    }
 
     private void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
         if (FMLEnvironment.dist == Dist.CLIENT) {
