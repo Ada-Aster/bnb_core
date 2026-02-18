@@ -37,15 +37,11 @@ public class PacketChannel {
                 .decoder(SyncDataPacket::new)
                 .consumerMainThread(SyncDataPacket::handle)
                 .buildLoginPacketList( bool -> {
-//                    if ( bool ) {
-//                        return null;
-//                    }
                     List<Pair<String, SyncDataPacket>> list = new ArrayList<>();
                     list.add( Pair.of( CHANNEL_ID,
                             new SyncDataPacket(CropsNSeedsData.CROPS_MAP, CropsNSeedsData.SEEDS_LIST) ) );
                     return list;
                 })
-                //.markAsLoginPacket()
                 .noResponse()
                 .add();
 
