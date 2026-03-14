@@ -163,6 +163,8 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:5672013")
     implementation fg.deobf("curse.maven:jei-238222:6600311")
     implementation fg.deobf("curse.maven:meds-and-herbs-418682:4840824")
+    implementation fg.deobf("curse.maven:create-328085:7178761")
+    implementation fg.deobf("curse.maven:create-metallurgy-1007404:7729214")
 
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
