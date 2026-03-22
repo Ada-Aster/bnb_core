@@ -8,6 +8,7 @@
     "MixinCastingRecipe",
     "MixinClientBlockStateColorCache",
     "MixinCropBlock",
+    "MixinSSEvents",
     "tierUpgrade.MixinCopperTier",
     "tierUpgrade.MixinDDTiers",
     "tierUpgrade.MixinTiers"

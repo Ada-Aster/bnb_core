@@ -147,8 +147,8 @@ dependencies {
 
     // Minor Fixes
     compileOnly fileTree(dir: 'libs', include: '*.jar') // Needed for copper backport
-    compileOnly fg.deobf("curse.maven:simple-silver-1278462:7104471")
-    compileOnly fg.deobf("curse.maven:deeperdarker-659011:5906086")
+    implementation fg.deobf("curse.maven:simple-silver-1278462:7104471")
+    implementation fg.deobf("curse.maven:deeperdarker-659011:5906086")
 
     // I need to look at some code for these
     compileOnly fg.deobf("curse.maven:backported-spears-1385191:7695355")
